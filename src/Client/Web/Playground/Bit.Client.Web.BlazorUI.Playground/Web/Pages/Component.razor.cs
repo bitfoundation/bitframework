@@ -1,10 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace Bit.Client.Web.BlazorUI.Playground.Web.Pages
 {
     public partial class Component
     {
+        private double precentComplete;
+        private string description = "Push button to start !";
+
+        private async Task HandleProgress() {
+            precentComplete = 0;
+            while (precentComplete <= 100) {
+                if (precentComplete == 100)
+                {
+                    description = $"Completed !";
+                    break;
+                }
+                else {
+                    precentComplete++;
+                    description = $"{precentComplete}%";
+                }
+                await InvokeAsync(StateHasChanged);
+                await Task.Delay(100);
+            }
+        }
+
         private bool CheckBoxOnChangedValue = false;
         private bool IsCheckBoxChecked = false;
         private bool IsCheckBoxIndeterminate = true;
