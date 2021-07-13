@@ -98,5 +98,18 @@ namespace Bit.Client.Web.BlazorUI.Tests.Inputs
             Assert.AreEqual(count, com.Instance.CurrentCount);
             Assert.IsTrue(bitChoiceGroup.ClassList.Contains($"bit-chg-{className}-fluent"));
         }
+
+        [DataTestMethod, DataRow("Detailed label")]
+        public void BitTextFieldAriaLabelTest(string ariaLabel)
+        {
+            var com = RenderComponent<BitTextFieldTest>(parameters =>
+            {
+                parameters.Add(p => p.AriaLabel, ariaLabel);
+            });
+
+            var bitTextField = com.Find(".bit-txt > input, .bit-txt > textarea");
+
+            Assert.IsTrue(bitTextField.GetAttribute("aria-label").Equals(ariaLabel));
+        }
     }
 }
